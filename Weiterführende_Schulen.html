@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weiterführende Schulen in Bayern</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+        
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0f172a;
+            color: #cbd5e1;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        header button, header a {
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #60a5fa;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px #3b82f6;
+            transition: color 0.3s ease;
+        }
+
+        header button:hover, header a:hover {
+            color: #93c5fd;
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #60af5a;
+            text-align: center;
+            text-shadow: 0 0 10px #3b82f6;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        #home {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgb(30 41 59 / 0.6);
+            cursor: pointer;
+            width: 180px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            color: #cbd5e1;
+            text-align: center;
+            transition: transform 0.3s ease;
+            user-select: none;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.06);
+            box-shadow: 0 6px 18px rgb(96 165 250 /0.8);
+        }
+
+        .card img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            pointer-events: none;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .section {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .section.avtive {
+            display: flex;
+        }
+
+        .big-img {
+            max-width: 900px;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+            margin-bottom: 1rem;
+            object-fit: contain;
+            user-select: none;
+        }
+
+        .text-content {
+            overflow-y: auto;
+            max-height: 400px;
+            width: 100%;
+            background: rgba(255 255 255 / 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255 255 255 / 0.1);
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            position: relative;
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 30px, black calc(100% - 30px), transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 30px calc(100% - 30px), transparent);
+        }
+
+        .text-content:focus {
+            outline: none;
+        }
+
+        .back-btn {
+            margin-top: 1rem;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px #3b82f6;
+            transition: background 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        #login {
+            max-width: 400px;
+            background: #1e293b;
+            padding: 1.5rem 2rem;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(30, 41, 59, 0.8);
+        }
+
+        #login h1 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.75rem;
+            text-align: center;
+            color: #60a5fa;
+            text-shadow: 0 0 8px #3b82f6;
+        }
+
+        #login form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        #login input {
+            padding: 0.6rem 0.8rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+        }
+
+        #login button {
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 0;
+            cursor: pointer;
+            box-shadow: 0 0 12px #3b82f6;
+            transition: background 0.3s ease;
+        }
+
+        #login button:hover {
+            background: #1d4ed8;
+        }
+
+        #login .back-btn {
+            align-self: center;
+            margin-top: 1rem;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            padding: 0 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .overlay:hover {
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .img-wrapper {
+            position: relative;
+            width: 700px;
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2563eb;
+            color: white;
+            padding: 0.7rem 1.3rem;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition:  opacity 0.4s ease;
+            z-index: 9999;
+            box-shadow: 0 0 12px #3b82f6;
+        }
+
+        #toast.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #consentBanner {
+            position: fixed;
+            bottom: 0;
+            left: 0; right: 0;
+            background: #1e293b;
+            color: #cbd5e1;
+            padding: 0.9rem 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            box-shadow: 0 -3px 12px rgba(0,0,0,0.7);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        #consentBanner button {
+            background: #2563eb;
+            border: none;
+            color: white;
+            padding: 0.4rem 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #3b82f6;
+            transition: background 0.3s ease;
+        }
+
+        #consentBaqnner button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <button id="homeBtn" onclick="navigate('home')">Home</button>
+    <button id="loginLink" onclick="navigate('login')">Anmelden / Registrieren</button>
+    <button id="logoutBtn" onclick="logout()" style="display: none;">Logout</button>
+    <button id="deleteBtn" onclick="deleteAccount()" style="display: none;">Account löschen</button>
+</header>
+
+<main>
+    <section id="home" class="section active">
+        <h1 style="width: 100%; text-align: center; margin-bottom: 2rem;">Weiterführende Schulen in Bayern</h1>
+
+        <div class="card" onclick="showSection('gymnasium')">
+            <img src="https://www.jhg-traunreut.schule/images/slider/cache/f244a17788c09948e3996b9992d10a02/FGT_7176.jpg" alt="Gymnasium" />
+            <h3>Gymnasium</h3>
+        </div>
+
+        <div class="card" onclick="showSection('realschule')">
+            <img src="https://realschule-traunreut.de/wp-content/uploads/2018/10/IMG_6660.png" alt="Realschule" />
+            <h3>Realschule</h3>
+        </div>
+    </section>
+
+    <section id="gymnasium" class="section">
+        <h1>Gymnasium in Bayern</h1>
+        <div class="img-wrapper">
+            <img class="big-img" id="gymImg" src="https://www.jhg-traunreut.schule/images/slider/cache/f244a17788c09948e3996b9992d10a02/FGT_7176.jpg" alt="Gymnasium" />
+            <div class="overlay" id="overlay-gym" onclick="navigate('lgoin')">Anmelden / Registrieren um das Bild zu sehen</div>
+        </div>
+
+        <div class="text-content" tabindex="0">
+            <h2>Was ist das Gymnasium?</h2>
+            <p>
+                Das Gymnasium ist eine der weiterführenden Schularten in Bayern und bietet eine vertiefte allgemeine Bildung, die auf das Abitur vorbereitet.
+            </p>
+            <p>
+                Die Schüler durchlaufen in der Regel die Jahrgangsstufen 5 bis 12 (bzw. 13), je nach G8 oder G9 Modell. Dabei liegt der Fokus auf einer breiten und vertieften Allgemeinbildung, insbesondere in den Bereichen Sprachen, Mathematik, Naturwissenschaften und gesellschaftliche Fächer.
+            </p>
+            <p>
+                Das Gymnasium ermöglicht den Zugang zu Hochschulen und Universitäten und bereitet auf akademische Berufe vor.
+            </p>
+            <p>
+                Es gibt verschiedene Zweige und Profile, wie sprachliches, naturwissenschaftliches, musisch-künstlerisches oder wirtschaftswissenschaftliches Gymnasium.
+            </p>
+            <p>
+                Neben dem Fachunterricht sind auch soziale Projekte, Praktika und Schüleraustausche wichtige Bestandteile, die zur Persönlichkeitsentwicklung beitragen.
+            </p>
+            <p>
+                Das Gymnasium fördert kritisches Denken, wissenschaftliches Arbeiten und eigenständiges Lernen.
+            </p>
+            <p>
+                Außerdem wird besonderer Wert auf Fremdsprachen gelegt, meist Englisch als erste Fremdsprache, gefolgt von Latein, Französisch oder Spanisch.
+            </p>
+            <p>
+                Nach dem Abitur eröffnen sich vielfältige Studien- und Berufsmöglichkeiten in vielen Fachrichtungen.
+            </p>
+            <p>
+                Das Gymnasium ist für Schüler geeignet, die gerne intensiv lernen und sich auf eine akademische Laufbahn vorbereiten möchten.
+            </p>
+        </div>
+
+        <button class="back-btn" onclick="goBack()">🔙 Zurück</button>
+    </section>
+
+    <section id="realschule" class="section">
+        <h1>Realschule in Bayern</h1>
+        <div class="img-wrapper">
+        <img class="big-img" id="realImg" src="https://realschule-traunreut.de/wp-content/uploads/2018/10/IMG_6660.png" alt="Realschule" />
+        <div class="overlay" id="overlay-real" onclick="navigate('login')">Anmelden / Registrieren um das Bild zu sehen</div>
+        </div>
+
+        <div class="text-content" tabindex="0">
+        <h2>Was ist die Realschule?</h2>
+        <p>
+            Die Realschule ist eine weiterführende Schule, die in Bayern meist die Jahrgangsstufen 5 bis 10 umfasst. Sie bietet eine breite allgemeine Bildung mit einem stärkeren Praxisbezug als das Gymnasium.
+        </p>
+        <p>
+            Der Unterricht an der Realschule umfasst Fächer wie Deutsch, Mathematik, Fremdsprachen, Naturwissenschaften, sowie berufsorientierte Inhalte. Ziel ist es, die Schülerinnen und Schüler auf eine berufliche Ausbildung oder den Besuch weiterführender Schulen (z.B. Fachoberschule oder berufliches Gymnasium) vorzubereiten.
+        </p>
+        <p>
+            Die Realschule legt großen Wert auf praxisnahe Bildung und vermittelt Kompetenzen, die für viele Berufe wichtig sind. Die Schülerinnen und Schüler erwerben eine solide Allgemeinbildung, die eine gute Grundlage für das weitere Leben bietet.
+        </p>
+        <p>
+            Nach dem Abschluss der Realschule können die Absolventen eine Berufsausbildung beginnen oder durch den Besuch weiterführender Schulen ihre Bildung vertiefen.
+        </p>
+        <p>
+            Die Realschule fördert auch soziale Kompetenzen und selbstständiges Arbeiten.
+        </p>
+        <p>
+            Besonders wichtig sind praxisorientierte Projekte und außerschulische Lernorte, die den Unterricht ergänzen.
+        </p>
+        <p>
+            Durch die Kombination von Theorie und Praxis sind die Absolventen der Realschule gut auf den Arbeitsmarkt vorbereitet.
+        </p>
+        <p>
+            Die Realschule eignet sich für Schülerinnen und Schüler, die eine praktische Ausbildung anstreben und dennoch eine fundierte Allgemeinbildung erhalten möchten.
+        </p>
+        <p>
+            Moderne Realschulen bieten oft auch vertiefte Englischkenntnisse und technische Fächer an.
+        </p>
+        </div>
+
+        <button class="back-btn" onclick="goBack()">🔙 Zurück</button>
+    </section>
+
+    <section id="login" class="section">
+        <h1>Anmelden / Registrieren</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Benutzer" required autocomplete="off">
+            <input type="password" id="password" placeholder="Passwort" required autocomplete="off">
+            <button type="submit">Anmelden / Registrieren</button>
+        </form>
+        <button class="back-btn" onclick="navigate('home')">Zurück zur Startseite</button>
+    </section>
+</main>
+
+<div id="toast"></div>
+
+<div id="consentBanner" style="display: none;">
+    Diese Webseite speichert Anmeldedaten lokal, um automatische Anmeldung zu ermöglichen.
+    <button id="consentAccept">Akzeptieren</button>
+    <button id="consentDecline">Ablehnen</button>
+</div>
+
+<script>
+    const section = document.querySelectorAll('.section');
+    let historyStack = ['home'];
+    let animating = false;
+
+    function navigate(target) {
+        if(animating) return;
+        if(!['home', 'gymnasium', 'realschule', 'login'].includes(target)) return;
+        if(currentSection() === target) return;
+
+        animating = true;
+        const current = currentSection();
+        document.getElementById(target).classList.add('active');
+        setTimeout(() => {
+            document.getElementById(current).classList.remove('active');
+            animating = false;
+        }, 250);
+    
+
+        historyStack.push(target);
+        updateHeaderButtons();
+    }
+
+    function showSection(name) {
+        if(animating) return;
+        navigate(name);
+    }
+
+    function goBack() {
+        if(animating) return;
+        if(historyStack.length < 2) return;
+        animating = true;
+
+        historyStack.pop();
+        const last = historyStack[historyStack.length - 1];
+        document.getElementById(last).classList.add('active');
+
+        setTimeout(() => {
+            const current = document.querySelector('.section.active:not(#' + last + ')');
+            if(current) current.classList.remove('active');
+            animating = false;
+            updateHeaderButtons();
+        }, 250);
+    }
+
+    function currerntSection() {
+        for(let s of sections) {
+            if(s.classList.contains('active')) return s.id;
+        }
+        return 'home';
+    }
+
+    const toast = document.getElementById('toast');
+    let toastTimeout;
+
+    function showToast(message) {
+        clearTimeout(toastTimeout);
+        toast.textContent = message;
+        toast.classList.add('show');
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    let consentGiven = localStorage.getItem('consentGiven') === 'true';
+    let loggedInUser = null;
+
+    const loginForm = document.getElementById('loginForm');
+    const loginLinkBtn = document.getElementById('loginLink');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
+
+    function setTempSessionItem (key, value) {
+        if(consentGiven) {
+            sessionStorage.setItem(key, value);
+        } else {
+            setTempSession[key] = value;
+        }
+    }
+</script>
+</body>
+</html>
